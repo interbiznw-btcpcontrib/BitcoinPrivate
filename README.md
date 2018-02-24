@@ -1,9 +1,14 @@
 Bitcoin Private
 ----------------
 
+### Testnet
+
+Build the latest version of BTCP using the instructions below, then follow the [testnet guide](doc/testnet.md)
+
 **Bitcoin Private v1.0.10-1**
 
-P2P Port: 7933  
+P2P Port: 7933
+
 RPC Port: 7932
 
 Bitcoin Private is a fork of Zclassic, merging in the UTXO set of Bitcoin. BTCP is financial freedom.
@@ -12,7 +17,7 @@ Bitcoin Private is a fork of Zclassic, merging in the UTXO set of Bitcoin. BTCP 
 
 The snapshot will take place on February 28th. The fork (creation of BTCP) will occur shortly after, on March 2nd.
 
-Install
+Build
 -----------------
 ### Linux
 
@@ -24,18 +29,24 @@ sudo apt-get install \
       zlib1g-dev wget bsdmainutils automake
 ```
 
-Install:
+Build:
 ```{r, engine='bash'}
+# Checkout
+git clone https://github.com/BTCPrivate/BitcoinPrivate.git
+cd BitcoinPrivate
 # Build
 ./btcputil/build.sh -j$(nproc)
 # Fetch Zcash ceremony keys
 ./btcputil/fetch-params.sh
-# Run
+```
+
+Run:
+```
 ./src/btcpd
 ```
 
 ### Windows
-There are two proven ways to build BTCP for Windows:
+Windows is not an officially or fully supported build - however there are two ways to build BTCP for Windows:
 
 * On Linux using [Mingw-w64](https://mingw-w64.org/doku.php) cross compiler tool chain. Ubuntu 16.04 Xenial is proven to work and the instructions is for such release.
 * On Windows 10 (64-bit version) using [Windows Subsystem for Linux (WSL)](https://msdn.microsoft.com/commandline/wsl/about) and Mingw-w64 cross compiler tool chain.
@@ -49,12 +60,16 @@ Follow this [link](https://msdn.microsoft.com/en-us/commandline/wsl/install_guid
 sudo apt-get install \
       build-essential pkg-config libc6-dev m4 g++-multilib \
       autoconf libtool ncurses-dev unzip git python \
-      zlib1g-dev wget bsdmainutils automake mingw-w64
+      zlib1g-dev wget bsdmainutils automake make cmake mingw-w64
 ```
 
 2. Set the default ming32 gcc/g++ compiler option to posix, fix problem with packages in Xenial
 
 ```{r, engine='bash'}
+sudo apt install software-properties-common
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu zesty universe"
+sudo apt update
+sudo apt upgrade
 sudo update-alternatives --config x86_64-w64-mingw32-gcc
 sudo update-alternatives --config x86_64-w64-mingw32-g++
 ```
@@ -85,10 +100,16 @@ PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %P
 
 5. Installation
 
-After building in WSL, you can make a copy of the compiled executables to a directory on your Windows file system. This is done the following way
+If compiling on linux, use the following command to build the executables in `./depends/x86_64-w64-mingw32/bin/
 
 ```{r, engine='bash'}
-make install DESTDIR=/mnt/c/btcp/BTCPrivate
+sudo make install DESTDIR=
+```
+
+After building, you can make a copy of the compiled executables to a directory on your Windows file system. This is done the following way
+
+```{r, engine='bash'}
+sudo make install DESTDIR=/mnt/c/btcp/BTCPrivate
 ```
 This will install the executables to `c:\btcp\BTCPrivate
 
@@ -164,6 +185,7 @@ https://github.com/zcash/zcash/wiki/1.0-User-Guide
 
 * Code review is welcome!
 * If you want to get to know us join our Discord: https://discord.gg/9xezcaK
+* We have a brief guide for joining the Bitcoin private testnet [here](doc/testnet.md)
 
 
 Participation in the Bitcoin Private project is subject to a
